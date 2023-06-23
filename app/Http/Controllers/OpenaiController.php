@@ -9,11 +9,130 @@ class OpenaiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function CreateQuestion(Request $request)
+    public function CreateConversation(Request $request)
     {
 
-        $apikey = "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";
-        $url = "https://api.openai.com/v1/chat/completions";
+        // リクエストヘッダー
+        $headers = array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . config('services.openai.api')
+        );
+
+        // リクエストボディ
+        $data = [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
+                ["role" => "system", "content" => "非日本語話者に日本語教える先生としてふるまってください。"],
+                ["role" => "system", "content" => "生徒は英語話者です。"],
+                ["role" => "system", "content" => "今日の単元は".$request->theme."です"],
+                ["role" => "system", "content" => "今、あなたは生徒とマンツーマンの授業を行っています"],
+                ["role" => "system", "content" => "授業はインタラクティブに行われ、先生が問題を出し、生徒がそれに答え、その内容を先生が添削して指導します"],
+                ["role" => "system", "content" => "会話は英語と日本語を混ぜて行われます"],
+                ["role" => "system", "content" => "生徒のレベルに沿って英語と日本語を切り替えてください。"],
+                ["role" => "system", "content" => "私が生徒となって会話を始めます。"],
+                ['role' => 'user', 'content' => $request->message],
+            ],
+            'max_tokens' => 500,
+        ];
+        // cURLを使用してAPIにリクエストを送信 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, config('services.openai.url'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // 結果をデコード
+        $result = json_decode($response, true);
+        $result_message = $result["choices"][0]["message"]["content"];
+
+        // 結果を出力  
+        return $this->JsonResponse($result_message);
+
+    }
+
+    public function onConversation(Request $request)
+    {
+        // リクエストヘッダー
+        $headers = array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . config('services.openai.api')
+        );
+
+        // リクエストボディ
+        $data = [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
+                ['role' => 'user', 'content' => $request->message1],
+                ["role" => "assistant", "content" => $request->result],
+                ['role' => 'user', 'content' => $request->message2],
+            ],
+            'max_tokens' => 500,
+        ];
+        // cURLを使用してAPIにリクエストを送信 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, config('services.openai.url'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // 結果をデコード
+        $result = json_decode($response, true);
+        $result_message = $result["choices"][0]["message"]["content"];
+
+        // 結果を出力  
+        return $this->JsonResponse($result_message);
+
+    }
+    public function lastConversation(Request $request)
+    {
+        // リクエストヘッダー
+        $headers = array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . config('services.openai.api')
+        );
+
+        // リクエストボディ
+        $data = [
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
+                ['role' => 'user', 'content' => $request->message1],
+                ["role" => "assistant", "content" => $request->result1],
+                ['role' => 'user', 'content' => $request->message2],
+                ["role" => "assistant", "content" => $request->result2],
+                ['role' => 'user', 'content' => $request->message3],
+            ],
+            'max_tokens' => 500,
+        ];
+        // cURLを使用してAPIにリクエストを送信 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, config('services.openai.url'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // 結果をデコード
+        $result = json_decode($response, true);
+        $result_message = $result["choices"][0]["message"]["content"];
+
+        // 結果を出力  
+        return $this->JsonResponse($result_message);
+
+    }
+
+    public function CreateQuestion(Request $request)
+    {
 
         // リクエストヘッダー
         $headers = array(
