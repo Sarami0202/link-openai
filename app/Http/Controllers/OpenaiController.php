@@ -22,14 +22,14 @@ class OpenaiController extends Controller
         $data = [
             'model' => 'gpt-3.5-turbo',
             'messages' => [
-                ["role" => "system", "content" => "非日本語話者に日本語教える先生としてふるまってください。"],
-                ["role" => "system", "content" => "生徒は英語話者です。"],
-                ["role" => "system", "content" => "今日の単元は".$request->theme."です"],
-                ["role" => "system", "content" => "今、あなたは生徒とマンツーマンの授業を行っています"],
-                ["role" => "system", "content" => "授業はインタラクティブに行われ、先生が問題を出し、生徒がそれに答え、その内容を先生が添削して指導します"],
-                ["role" => "system", "content" => "会話は英語と日本語を混ぜて行われます"],
-                ["role" => "system", "content" => "生徒のレベルに沿って英語と日本語を切り替えてください。"],
-                ["role" => "system", "content" => "私が生徒となって会話を始めます。"],
+                ["role" => "system", "content" => $request->system1],
+                ["role" => "system", "content" => $request->system2],
+                ["role" => "system", "content" => $request->system3],
+                ["role" => "system", "content" => $request->system4],
+                ["role" => "system", "content" => $request->system5],
+                ["role" => "system", "content" => $request->system6],
+                ["role" => "system", "content" => $request->system7],
+                ["role" => "system", "content" => $request->system8],
                 ['role' => 'user', 'content' => $request->message],
             ],
             'max_tokens' => 500,
@@ -66,6 +66,13 @@ class OpenaiController extends Controller
         $data = [
             'model' => 'gpt-3.5-turbo',
             'messages' => [
+                ["role" => "system", "content" => $request->system1],
+                ["role" => "system", "content" => $request->system2],
+                ["role" => "system", "content" => $request->system3],
+                ["role" => "system", "content" => $request->system4],
+                ["role" => "system", "content" => $request->system5],
+                ["role" => "system", "content" => $request->system6],
+                ["role" => "system", "content" => $request->system7],
                 ['role' => 'user', 'content' => $request->message1],
                 ["role" => "assistant", "content" => $request->result],
                 ['role' => 'user', 'content' => $request->message2],
@@ -103,6 +110,13 @@ class OpenaiController extends Controller
         $data = [
             'model' => 'gpt-3.5-turbo',
             'messages' => [
+                ["role" => "system", "content" => $request->system1],
+                ["role" => "system", "content" => $request->system2],
+                ["role" => "system", "content" => $request->system3],
+                ["role" => "system", "content" => $request->system4],
+                ["role" => "system", "content" => $request->system5],
+                ["role" => "system", "content" => $request->system6],
+                ["role" => "system", "content" => $request->system7],
                 ['role' => 'user', 'content' => $request->message1],
                 ["role" => "assistant", "content" => $request->result1],
                 ['role' => 'user', 'content' => $request->message2],
@@ -156,7 +170,7 @@ class OpenaiController extends Controller
         ];
         // cURLを使用してAPIにリクエストを送信 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,  config('services.openai.url'));
+        curl_setopt($ch, CURLOPT_URL, config('services.openai.url'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
@@ -191,7 +205,7 @@ class OpenaiController extends Controller
                 ["role" => "system", "content" => "問題が複数の場合はヒントもそれぞれ出力"],
                 ['role' => 'user', 'content' => "日本語能力試験（JLPT）の問題を出力してください。"],
                 ["role" => "assistant", "content" => $request->result],
-                ['role' => 'user', 'content' => "ヒントを教えてください。".$request->language."で教えてください"],
+                ['role' => 'user', 'content' => "ヒントを教えてください。" . $request->language . "で教えてください"],
             ],
             'max_tokens' => 500,
         ];
@@ -282,7 +296,7 @@ class OpenaiController extends Controller
 
         // cURLを使用してAPIにリクエストを送信 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,  config('services.openai.url'));
+        curl_setopt($ch, CURLOPT_URL, config('services.openai.url'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
