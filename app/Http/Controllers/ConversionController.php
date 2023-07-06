@@ -17,15 +17,15 @@ class ConversionController extends Controller
             'Content-Type: application/json',
             'Authorization: Bearer ' . config('services.openai.api')
         );
-        
+
         // リクエストボディ
         $data = [
             'model' => 'gpt-3.5-turbo',
             'messages' => [
-                ["role" => "system", "content" => "あなたは日本語話者です。"],
-                ["role" => "system", "content" => "日本語で話してください"],
+                ["role" => "system", "content" => "私は" . $request->language . "を話します。"],
+                ["role" => "system", "content" => "あなたは日本語で話してください"],
                 ["role" => "system", "content" => "あなたは私と仲の良い友人です。"],
-                ["role" => "system", "content" => "出力の後に(".$request->language."の翻訳)を付けてください。"],
+                ["role" => "system", "content" => "私に分かるように日本語の後に(" . $request->language . "の翻訳)を加えてください。"],
                 ["role" => "system", "content" => "積極的に会話を展開してください。"],
                 ['role' => 'user', 'content' => $request->message1],
             ],
@@ -63,10 +63,10 @@ class ConversionController extends Controller
         $data = [
             'model' => 'gpt-3.5-turbo',
             'messages' => [
-                ["role" => "system", "content" => "あなたは日本語話者です。"],
+                ["role" => "system", "content" => "私は" . $request->language . "を話します。"],
+                ["role" => "system", "content" => "あなたは日本語で話してください"],
                 ["role" => "system", "content" => "あなたは私と仲の良い友人です。"],
-                ["role" => "system", "content" => "日本語で話してください"],
-                ["role" => "system", "content" => "出力の後に(".$request->language."の翻訳)を付けてください。"],
+                ["role" => "system", "content" => "私に分かるように日本語の後に(" . $request->language . "の翻訳)を加えてください。"],
                 ["role" => "system", "content" => "積極的に会話を展開してください。"],
                 ['role' => 'user', 'content' => $request->message1],
                 ["role" => "assistant", "content" => $request->result1],
@@ -105,10 +105,10 @@ class ConversionController extends Controller
         $data = [
             'model' => 'gpt-3.5-turbo',
             'messages' => [
-                ["role" => "system", "content" => "あなたは日本語話者です。"],
-                ["role" => "system", "content" => "日本語で話してください"],
+                ["role" => "system", "content" => "私は" . $request->language . "を話します。"],
+                ["role" => "system", "content" => "あなたは日本語で話してください"],
                 ["role" => "system", "content" => "あなたは私と仲の良い友人です。"],
-                ["role" => "system", "content" => "出力の後に(".$request->language."の翻訳)を付けてください。"],
+                ["role" => "system", "content" => "私に分かるように日本語の後に(" . $request->language . "の翻訳)を加えてください。"],
                 ["role" => "system", "content" => "積極的に会話を展開してください。"],
                 ['role' => 'user', 'content' => $request->message1],
                 ["role" => "assistant", "content" => $request->result1],
