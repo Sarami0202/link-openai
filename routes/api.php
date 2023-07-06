@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/Conversion', 'App\Http\Controllers\ConversionController@Conversion');
+Route::post('/onConversion', 'App\Http\Controllers\ConversionController@onConversion');
+Route::post('/lastConversion', 'App\Http\Controllers\ConversionController@lastConversion');
 Route::post('/CreateConversation', 'App\Http\Controllers\OpenaiController@CreateConversation');
 Route::post('/lastConversation', 'App\Http\Controllers\OpenaiController@lastConversation');
 Route::post('/onConversation', 'App\Http\Controllers\OpenaiController@onConversation');

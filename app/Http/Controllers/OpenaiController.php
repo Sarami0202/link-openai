@@ -9,7 +9,8 @@ class OpenaiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function CreateConversation(Request $request)
+
+         public function CreateConversation(Request $request)
     {
 
         // リクエストヘッダー
