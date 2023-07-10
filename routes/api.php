@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/onTranslation', 'App\Http\Controllers\ConversionController@Translation');
 Route::post('/Conversion', 'App\Http\Controllers\ConversionController@Conversion');
 Route::post('/onConversion', 'App\Http\Controllers\ConversionController@onConversion');
 Route::post('/lastConversion', 'App\Http\Controllers\ConversionController@lastConversion');
